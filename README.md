@@ -28,7 +28,7 @@
 
 </details>
 
-#### [LangChain Models](../genertive-ai-using-langchain/01-langchain-models/)
+## LangChain Models
 
 1. **LLM**
    1. [LLM Demo](../genertive-ai-using-langchain/01-langchain-models/01-llm/01-llm-demo.py)
@@ -45,6 +45,14 @@
    4. [Text Similarity](../genertive-ai-using-langchain/01-langchain-models/03-embedding-models/04-document-similarity.py)
    
 
+## LangChain Prompts
+1. [Temperature](../generative-ai-using-langchain/02-langchain-prompts/01-temperature/temperature.py)
+2. **Static & Dynamic Prompt**
+   1. [Static Prompt](../generative-ai-using-langchain/02-langchain-prompts/02-static-and-dynamic-prompt/01-static-prompt-ui.py)
+   2. [Dynamic Prompt with streamlit UI](../generative-ai-using-langchain/02-langchain-prompts/02-static-and-dynamic-prompt/02-dynamic-prompt-ui.py)
+   3. [Prompt Generator form PromptTemplate](../generative-ai-using-langchain/02-langchain-prompts/02-static-and-dynamic-prompt/03-prompt-generator.py)
+   4. [Advanced Dynamic Prompt with UI](../generative-ai-using-langchain/02-langchain-prompts/02-static-and-dynamic-prompt/04-adv-dynamic-prompt-ui.py)
+3. [Simple Chatbot](../generative-ai-using-langchain/02-langchain-prompts/03-chatbot/01-simple-chatbot.py)
 ---
 
 ## 🧑‍💻 Author

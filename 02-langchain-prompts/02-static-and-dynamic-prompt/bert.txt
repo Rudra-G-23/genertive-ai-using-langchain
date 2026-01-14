@@ -1,0 +1,60 @@
+## 1. Why "Encoder-Only"?
+
+The Encoder’s job in the original Transformer is to look at the entire input sequence simultaneously and build a vector for each word that "knows" about all the other words.
+
+* **Generative models (like GPT)** use the **Decoder** because they need to hide the future to predict the next word (Unidirectional).
+* **Understanding models (like BERT)** use the **Encoder** because they want to see the whole sentence at once to understand nuance (Bidirectional).
+
+---
+
+## 2. The "Bidirectional" Breakthrough
+
+Before BERT, models like LSTMs or GPT-1 were "unidirectional." They read text from left-to-right or right-to-left.
+
+If you have the sentence:
+
+> *"The bank of the river was muddy."*
+
+A left-to-right model sees *"The bank of..."* and doesn't know if "bank" refers to a financial institution or a river until it reaches the end. BERT sees the entire sentence at once, allowing the representation of "bank" to be informed by "river" immediately.
+
+### The Problem: The "Cheating" Loophole
+
+You can't simply train a standard Transformer to predict the next word using a bidirectional encoder because the model would "see" the answer in its own input. BERT solved this with two clever pre-training tasks.
+
+---
+
+## 3. Pre-training Task 1: Masked Language Modeling (MLM)
+
+Instead of predicting the *next* word, BERT hides random words and asks the model to fill in the blanks. This is often called the **Cloze Task**.
+
+1. **Masking:** 15% of the words in a sentence are selected.
+2. **Replacement:** Of those 15%:
+* 80% are replaced with a special `[MASK]` token.
+* 10% are replaced with a random word.
+* 10% are left unchanged (to keep the model honest).
+
+
+3. **Objective:** The model must use the surrounding context (both left and right) to predict the original word.
+
+---
+
+## 4. Pre-training Task 2: Next Sentence Prediction (NSP)
+
+Many NLP tasks (like Question Answering) require understanding the relationship between two sentences. BERT learns this by being fed pairs of sentences ( and ):
+
+* 50% of the time,  is the actual next sentence.
+* 50% of the time,  is a random sentence from the corpus.
+
+The model uses a special **`[CLS]` (Classification)** token at the very beginning of the input to output a binary "IsNext" or "NotNext" prediction.
+
+---
+
+## 5. Input Representation: The Three Embeddings
+
+BERT doesn't just look at word vectors; it combines three types of information for every token:
+
+1. **Token Embeddings:** The numerical representation of the word (using WordPiece tokenization).
+2. **Segment Embeddings:** Identifies if a token belongs to Sentence A or Sentence B.
+3. **Position Embeddings:** Standard Transformer positional encodings (since Encoders have no inherent sense of order).
+
+---

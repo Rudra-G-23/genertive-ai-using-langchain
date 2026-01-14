@@ -1,0 +1,101 @@
+## 1. The Core Paradigm Shift: From Recurrence to Attention
+
+Before this paper, the state-of-the-art for sequence modeling (like translation) relied on **Recurrent Neural Networks (RNNs)**, LSTMs, and GRUs.
+
+### The Problem with RNNs
+
+* **Sequential Bottleneck:** RNNs process tokens one by one. To compute the hidden state of the 10th word, you must first compute the previous nine. This prevents parallelization during training.
+* **Long-Range Dependencies:** Despite LSTMs, RNNs struggle to "remember" information from the beginning of a very long sentence when they reach the end.
+* **Vanishing Gradients:** As sequences grow, the gradient signal used to train the network weakens.
+
+### The Transformer Solution
+
+The Transformer replaces recurrence entirely with **Attention**. This allows the model to look at every other word in a sentence simultaneously, regardless of distance, enabling massive parallelization and better capture of global context.
+
+---
+
+## 2. The Transformer Architecture
+
+The model follows an **Encoder-Decoder** structure, which is standard for sequence-to-sequence tasks like translation.
+
+### A. The Encoder
+
+The encoder consists of a stack of  identical layers. Each layer has two sub-layers:
+
+1. **Multi-Head Self-Attention Mechanism**
+2. **Position-wise Fully Connected Feed-Forward Network**
+
+Each sub-layer uses a **residual connection** followed by **Layer Normalization**. The output of each sub-layer is .
+
+### B. The Decoder
+
+The decoder also has  identical layers but includes a third sub-layer:
+
+1. **Masked Multi-Head Self-Attention:** Prevents positions from attending to "future" tokens (ensures the model only looks at what it has already generated).
+2. **Encoder-Decoder Attention:** Performs attention over the encoder's output, allowing the decoder to focus on relevant parts of the input sequence.
+3. **Position-wise Feed-Forward Network.**
+
+---
+
+## 3. The Mechanism of Attention
+
+The heart of the paper is the **Scaled Dot-Product Attention**.
+
+### The Mathematical Formula
+
+The model maps a query and a set of key-value pairs to an output. The output is a weighted sum of the values (), where the weight assigned to each value is computed by a compatibility function of the query () with the corresponding key ().
+
+* ** (Query):** What I am looking for.
+* ** (Key):** What I have to offer.
+* ** (Value):** The actual information I provide.
+* **:** A scaling factor used to prevent the dot product from growing too large in magnitude, which would push the softmax function into regions with extremely small gradients.
+
+### Multi-Head Attention
+
+Instead of performing a single attention function, the authors found it beneficial to linearly project the  and  multiple times ( heads). Each "head" learns to attend to information from different representation subspaces at different positions.
+
+---
+
+## 4. Positional Encoding
+
+Since the Transformer contains no recurrence and no convolution, it has no inherent sense of the "order" of words. To address this, the authors add **Positional Encodings** to the input embeddings at the bottoms of the encoder and decoder stacks.
+
+They use sine and cosine functions of different frequencies:
+
+* 
+* 
+
+This allows the model to learn to attend by relative positions, as for any fixed offset ,  can be represented as a linear function of .
+
+---
+
+## 5. Why Attention? (Complexity Comparison)
+
+The paper justifies the shift to attention based on three criteria:
+
+| Layer Type | Complexity per Layer | Sequential Operations | Maximum Path Length |
+| --- | --- | --- | --- |
+| **Self-Attention** |  |  |  |
+| **Recurrent** |  |  |  |
+| **Convolutional** |  |  |  |
+
+* **:** Sequence length.
+* **:** Representation dimension.
+* **Self-attention is faster** than recurrence when the sequence length  is smaller than the representation dimension , which is common in many NLP tasks.
+
+---
+
+## 6. Training and Performance
+
+### Regularization
+
+To prevent overfitting, the authors used:
+
+* **Residual Dropout:** Applied to the output of each sub-layer.
+* **Label Smoothing:** This encourages the model to be less confident, which improves accuracy and BLEU scores even if it increases perplexity.
+
+### Results
+
+The Transformer achieved state-of-the-art results on the WMT 2014 English-to-German and English-to-French translation tasks. It was not only more accurate but also significantly faster to train than previous models (using 8 P100 GPUs for 3.5 days).
+
+---
