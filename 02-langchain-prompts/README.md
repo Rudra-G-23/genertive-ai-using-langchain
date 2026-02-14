@@ -1,6 +1,8 @@
 #### Notebook
 1. Temperature
 2. Static & Dynamic Prompts
+3. Chatbot
+4. Messages
 
 #### Resources
 - Sir YT Video: [Link](https://youtu.be/3TGqlQxpuU0?si=R3P1raX5m2r8kEGT)

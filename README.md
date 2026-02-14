@@ -28,7 +28,7 @@
 
 </details>
 
-## LangChain Models
+## 01. LangChain Models
 
 1. **LLM**
    1. [LLM Demo](01-langchain-models/01-llm/01-llm-demo.py)
@@ -47,7 +47,7 @@
    4. [Text Similarity](01-langchain-models/03-embedding-models/04-document-similarity.py)
    
 
-## LangChain Prompts
+## 02. LangChain Prompts
 
 1. [Temperature](02-langchain-prompts/01-temperature/temperature.py)
 
